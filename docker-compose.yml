@@ -1,0 +1,10 @@
+version: "3"
+services:
+  golang:
+    image: sangheon/golang
+    container_name: golang
+    volumes:
+      - .:/sandbox/
+    ports:
+      - "80:80"
+      - "443:443"
