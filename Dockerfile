@@ -1,4 +1,4 @@
-FROM sangheon/sandbox
+FROM sangheon/sandbox:20.04
 
 RUN apt update -y && apt install -y gcc && \
 wget -q https://go.dev/dl/go1.18.linux-amd64.tar.gz && \
