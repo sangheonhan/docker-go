@@ -1,30 +1,32 @@
-VERSION=1.18.3
+include .env
+
+DOCKLE_LATEST=`(curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')`
 
 build:
 	docker build . -t sangheon/golang:$(VERSION) --no-cache
 
 push:
-	docker tag sangheon/golang:$(VERSION) sangheon/golang:latest
 	docker push sangheon/golang:$(VERSION)
-	docker push sangheon/golang:latest
 
 clean:
 	-docker-compose down --rmi all
-	-docker rm sangheon/golang
+	-docker rm sangheon/golang_$(VERSION)
 	-docker rmi sangheon/golang:$(VERSION)
-	-docker rmi sangheon/golang:latest
 
 shell:
-	docker exec -it golang /bin/zsh
+	docker exec -it golang_$(VERSION) /bin/zsh
 
 start:
-	docker run -itd --rm --name golang sangheon/golang:$(VERSION)
+	docker run -itd --rm --name golang_$(VERSION) sangheon/golang:$(VERSION)
 
 stop:
-	docker stop golang
+	docker stop golang_$(VERSION)
 
 up:
 	docker-compose up -d
 
 down:
-	docker-compose down --rmi all
+	docker-compose down --rmi local
+
+lint:
+	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock goodwithtech/dockle:v${DOCKLE_LATEST} sangheon/golang:$(VERSION)

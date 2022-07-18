@@ -1,11 +1,7 @@
 version: '3'
 services:
   golang:
-    image: sangheon/golang
-    container_name: golang
-    working_dir: /app/
+    image: sangheon/golang:${VERSION}
+    container_name: golang_${VERSION}
     volumes:
       - .:/app/
-    ports:
-      - 80:80
-      - 443:443
