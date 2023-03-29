@@ -2,11 +2,14 @@ FROM sangheon/sandbox:22.04
 
 WORKDIR /app/
 
+ARG TARGETOS
+ARG TARGETARCH
+
 RUN sed -i 's/archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list && \
 apt update -y && apt install -y gcc && \
-wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz && \
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.3.linux-amd64.tar.gz && \
-rm -f go1.19.3.linux-amd64.tar.gz && \
+wget -q https://go.dev/dl/go1.19.3.$TARGETOS-$TARGETARCH.tar.gz && \
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.3.$TARGETOS-$TARGETARCH.tar.gz && \
+rm -f go1.19.3.$TARGETOS-$TARGETARCH.tar.gz && \
 echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.extra; \
 apt clean autoclean -y && \
 apt autoremove -y && \ 
