@@ -7,9 +7,9 @@ ARG TARGETARCH
 
 RUN sed -i 's/archive.ubuntu.com/mirror.kakao.com/g' /etc/apt/sources.list && \
 apt update -y && apt install -y gcc && \
-wget -q https://go.dev/dl/go1.20.4.$TARGETOS-$TARGETARCH.tar.gz && \
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.4.$TARGETOS-$TARGETARCH.tar.gz && \
-rm -f go1.20.4.$TARGETOS-$TARGETARCH.tar.gz && \
+wget -q https://go.dev/dl/go1.22.0.$TARGETOS-$TARGETARCH.tar.gz && \
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.0.$TARGETOS-$TARGETARCH.tar.gz && \
+rm -f go1.22.0.$TARGETOS-$TARGETARCH.tar.gz && \
 echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.extra; \
 apt clean autoclean -y && \
 apt autoremove -y && \ 

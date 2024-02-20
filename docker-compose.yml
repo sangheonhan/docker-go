@@ -1,7 +1,0 @@
-version: '3'
-services:
-  golang:
-    image: sangheon/golang:${VERSION}
-    container_name: golang_${VERSION}
-    volumes:
-      - .:/app/

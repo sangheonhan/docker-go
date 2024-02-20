@@ -1,5 +1,8 @@
 include .env
 
+USER_ID=$(shell id -u)
+GROUP_ID=$(shell id -g)
+
 DOCKLE_LATEST=`(curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')`
 
 build:
@@ -25,19 +28,13 @@ shell:
 	docker exec -it golang_$(VERSION) /bin/zsh
 
 start:
-	docker run -itd --rm --name golang_$(VERSION) sangheon/golang:$(VERSION)
+	docker run -itd --rm --name golang_$(VERSION) -e HOST_UID=$(USER_ID) -e HOST_GID=$(GROUP_ID) sangheon/golang:$(VERSION)
 
 stop:
 	docker stop golang_$(VERSION)
 
-up:
-	docker-compose up -d
-
-down:
-	docker-compose down --rmi local
-
 sandbox:
-	docker run --interactive --tty --rm --name golang_$(VERSION) --volume $(PWD):/app/ --entrypoint /bin/zsh sangheon/golang:$(VERSION)
+	docker run --interactive --tty --rm --name golang_$(VERSION) -e HOST_UID=$(USER_ID) -e HOST_GID=$(GROUP_ID) --volume $(PWD):/app/ sangheon/golang:$(VERSION) /bin/zsh
 
 lint:
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock goodwithtech/dockle:v${DOCKLE_LATEST} sangheon/golang:$(VERSION)
