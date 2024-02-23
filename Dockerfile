@@ -1,4 +1,4 @@
-FROM sangheon/sandbox:22.04
+FROM sangheon/sandbox:24.04
 
 WORKDIR /app/
 
