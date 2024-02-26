@@ -10,6 +10,12 @@ build:
 	DOCKER_BUILDKIT=1 docker buildx build --push --platform linux/arm64/v8,linux/amd64 -t sangheon/golang:$(VERSION) --no-cache .
 	$(MAKE) pull
 
+testbuild:
+	docker build -t sangheon/go:$(VERSION)-build .
+
+testrun:
+	docker run -it --rm --name go_$(VERSION)-build -e HOST_UID=$(USER_ID) -e HOST_GID=$(GROUP_ID) sangheon/go:$(VERSION)-build /bin/zsh
+
 init:
 	docker buildx inspect --bootstrap
 	docker buildx create --name multiarch-builder --use
